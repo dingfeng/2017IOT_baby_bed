@@ -19,7 +19,7 @@ def pull():
 def bed_wetting(request):
 
     # waiting for future implemention
-    resStub = {'res': 'False'}
+    resStub = {'errno':0,'res': 'False'}
     return JsonResponse(resStub)
 
 def temp(request):
@@ -35,7 +35,7 @@ def temp(request):
     return JsonResponse(res)
 
 
-def inBed():
+def inBed(request):
 
     res = {'errno': 0}
 
@@ -54,13 +54,21 @@ def inBed():
             res['res'] = True
         else:
             res['res'] = False
-
+    
+    return JsonResponse(res)
 
 def sleepTime(request):
-    resStub = {'errno': 0}
+    res = {'errno': 0}
 
-    resStub['res'] = 6655
-    return JsonResponse(resStub)
+    latestAction = Action.objects.all().reverse()[:1][0]
+    if latestAction.action_type ==  'sleep':
+        startTime = time.mktime(time.strptime(latestAction.time,'%Y-%m-%dT%H:%M:%S'))
+        print time.mktime(time.localtime(time.time()))
+        res['res'] = time.time()-startTime
+    else:
+        res['res'] = 'awake'
+
+    return JsonResponse(res)
 
 def isCry(request):
     res = {'errno': 0}
@@ -123,6 +131,8 @@ def calcAver(datapoints):
 
 
 def history(request):
+    res = {'errno': 0}
+
     data = Action.objects.all().reverse()[:10]
     array = []
     for item in data:
@@ -130,23 +140,23 @@ def history(request):
         dict['time'] = item.time
         dict['action_type'] = item.action_type
         array.append(dict)
-
-    return JsonResponse(array)
+    res['data'] = array
+    return JsonResponse(res)
 
 
 def pull():
-    # current_time = time.time()
-    #
-    # rjson = data.getdata('sound,temperature',current_time , DEAMON_TIME_INTERVAL, 10)
-    # averageSound = calcAver(rjson['data']['datastreams'][0]['datapoints'])
-    # averageTem = calcAver(rjson['data']['datastreams'][1]['datapoints'])
-    #
-    # if averageSound < CRY_SOUND_THRESHOD and averageTem > INBED_TEMPERATURE_THRESHOD:
-    #     action = Action(action_type='sleep')
-    # elif averageSound > CRY_SOUND_THRESHOD and averageTem > INBED_TEMPERATURE_THRESHOD:
-    #     action = Action(action_type='cry')
-    # else:
-    #     action = Action(action_type='missing')
-    #
-    # action.save()
-    print "pulling..."
+    current_time = time.time()
+    
+    rjson = data.getdata('sound,temperature',current_time , DEAMON_TIME_INTERVAL, 10)
+    averageSound = calcAver(rjson['data']['datastreams'][0]['datapoints'])
+    averageTem = calcAver(rjson['data']['datastreams'][1]['datapoints'])
+    
+    if averageSound < CRY_SOUND_THRESHOD and averageTem > INBED_TEMPERATURE_THRESHOD:
+        action = Action(action_type='sleep')
+    elif averageSound > CRY_SOUND_THRESHOD and averageTem > INBED_TEMPERATURE_THRESHOD:
+        action = Action(action_type='cry')
+    else:
+        action = Action(action_type='missing')
+    
+    action.save()
+    #print "pulling..."

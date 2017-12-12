@@ -15,23 +15,26 @@ def post(headers = {}, params = {}):
     return r.json() if r.ok else None
 
 
-def getdata(datastream, end = None, range = None, limit = 1):
+def getdata(datastream, end = None, timerange = None, limit = 1):
 
     #currentTime = time.strftime('%Y-%m-%dT%H:%M:%S',time.localtime(time.time()))
 
     params = {
         'datastream_id': datastream,  # datastream id
-        'start': time.strftime('%Y-%m-%dT%H:%M:%S',end - range),  # start time of the desired period (optional)
-        'end': time.strftime('%Y-%m-%dT%H:%M:%S',end),  # end time of the desired period   (optional)
         'limit': limit,  # number of results
         'newadd': False,  # only see newly added records
         'sort': 'DESC',  # always want the latest
     }
+    if end != None:
+        params['start'] = time.strftime('%Y-%m-%dT%H:%M:%S',time.localtime(end - timerange))
+        params['end'] = time.strftime('%Y-%m-%dT%H:%M:%S',time.localtime(end))
+    
     headers = {
         'api-key': '6rMeFGhOlDJjWt1EfmpfEu8hNTc='
         # 'api-key': 'zMKoOvZlUKXJ7v3=9ikrldSuNI4='
     }
     rjson = get(headers=headers, params=params)
+    return rjson
 
 
 
