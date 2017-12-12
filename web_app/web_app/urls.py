@@ -16,9 +16,15 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from baby_bed import views as baby_bed_views
-
+from baby_bed import server as baby_bed_server
 
 urlpatterns = [
     url(r'^$', baby_bed_views.index),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^bed-wetting', baby_bed_server.bed_wetting, name='bed-wetting'),
+    url(r'^temp', baby_bed_server.temp, name='temp'),
+    url(r'^inBed', baby_bed_server.inBed, name='inbed'),
+    url(r'^sleepTime', baby_bed_server.sleepTime, name='sleeptime'),
+    url(r'^isCry', baby_bed_server.isCry, name='isCry'),
+    url(r'^isSleeping', baby_bed_server.isSleeping, name='isSleeping'),
+    url(r'^history/$', baby_bed_server.history, name='history'),
 ]
