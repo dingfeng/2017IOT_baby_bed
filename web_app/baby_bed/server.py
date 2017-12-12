@@ -2,11 +2,16 @@
 import data,time
 
 from django.http import JsonResponse
+from models import Action
 
 INBED_TEMPERATURE_THRESHOD = 30
 INBED_TEMPERATURE_WINDOW = 60    # s
 CRY_SOUND_THRESHOD = 200
 CRY_SOUND_WINDOW = 60
+DEAMON_TIME_INTERVAL = 60
+
+
+
 
 def pull():
     return 0
@@ -118,4 +123,30 @@ def calcAver(datapoints):
 
 
 def history(request):
-    return 0
+    data = Action.objects.all().reverse()[:10]
+    array = []
+    for item in data:
+        dict = {}
+        dict['time'] = item.time
+        dict['action_type'] = item.action_type
+        array.append(dict)
+
+    return JsonResponse(array)
+
+
+def pull():
+    # current_time = time.time()
+    #
+    # rjson = data.getdata('sound,temperature',current_time , DEAMON_TIME_INTERVAL, 10)
+    # averageSound = calcAver(rjson['data']['datastreams'][0]['datapoints'])
+    # averageTem = calcAver(rjson['data']['datastreams'][1]['datapoints'])
+    #
+    # if averageSound < CRY_SOUND_THRESHOD and averageTem > INBED_TEMPERATURE_THRESHOD:
+    #     action = Action(action_type='sleep')
+    # elif averageSound > CRY_SOUND_THRESHOD and averageTem > INBED_TEMPERATURE_THRESHOD:
+    #     action = Action(action_type='cry')
+    # else:
+    #     action = Action(action_type='missing')
+    #
+    # action.save()
+    print "pulling..."
