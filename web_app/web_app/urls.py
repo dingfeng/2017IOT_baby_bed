@@ -27,5 +27,7 @@ urlpatterns = [
     url(r'^isCry', baby_bed_server.isCry, name='isCry'),
     url(r'^isSleeping', baby_bed_server.isSleeping, name='isSleeping'),
     url(r'^history/$', baby_bed_server.history, name='history'),
+    url(r'^off', baby_bed_server.off, name='off'),
+    url(r'^on', baby_bed_server.on, name='on'),
     #url(r'^test/$', baby_bed_server.pull, name='test'),
 ]

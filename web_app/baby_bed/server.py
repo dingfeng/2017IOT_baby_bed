@@ -3,6 +3,7 @@ import data,time
 
 from django.http import JsonResponse
 from models import Action
+import socket
 
 INBED_TEMPERATURE_THRESHOD = 30
 INBED_TEMPERATURE_WINDOW = 60    # s
@@ -160,3 +161,23 @@ def pull():
     
     action.save()
     #print "pulling..."
+
+def off(request):
+    res = {'errno': 0}
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    for data in ['0', '0', '0']:
+        # 发送数据:
+        s.sendto(data, ('192.168.137.2', 20000))
+        # 接收数据:
+    s.close()
+    return JsonResponse(res)
+
+def on(request):
+    res = {'errno': 0}
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    for data in ['1', '1', '1']:
+        # 发送数据:
+        s.sendto(data, ('192.168.137.2', 20000))
+        # 接收数据:
+    s.close()
+    return JsonResponse(res)
