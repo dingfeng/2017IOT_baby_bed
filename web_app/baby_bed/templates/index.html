@@ -1,9 +1,168 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>首页</title>
-</head>
-<body>
-卜衡傻逼
-</body>
+{% load staticfiles %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+	
+    <title>Baby Beb Monitor</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'bootstrap-3.3.7/docs/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap-3.3.7/docs/dist/css/bootstrap-theme.min.css' %}" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="{% static 'dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'theme.css' %}">
+
+    <link href="{% static 'bootstrap-3.3.7/docs/assets/css/ie10-viewport-bug-workaround.css' %}" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+
+    <script src="{% static 'bootstrap-3.3.7/docs/assets/js/ie-emulation-modes-warning.js' %}"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <![endif]-->
+  </head>
+
+  <body style="padding-top: 0px">
+    <div class="container theme-showcase">
+      <div class="jumbotron">
+        <h1 style="color: #000000;">婴儿车状态</h1>
+      </div>
+      <div >
+        <h2 class="page-header">各项指标</h2>
+        <div class="row">
+          <div class="col-sm-4">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">是否入睡</h3>
+              </div>
+              <div class="panel-body" id="isAsleep">
+                是
+              </div>
+            </div>
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h3 class="panel-title">睡眠时间</h3>
+              </div>
+              <div class="panel-body" id="sleeptime">
+                2小时
+              </div>
+            </div>
+          </div><!-- /.col-sm-4 -->
+          <div class="col-sm-4">
+            <div class="panel panel-success">
+              <div class="panel-heading">
+                <h3 class="panel-title">睡眠温度</h3>
+              </div>
+              <div class="panel-body" id="sleeptemp">
+                40摄氏度
+              </div>
+            </div>
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <h3 class="panel-title">是否尿床</h3>
+              </div>
+              <div class="panel-body" id="isWet">
+                否
+              </div>
+            </div>
+          </div><!-- /.col-sm-4 -->
+          <div class="col-sm-4">
+            <div class="panel panel-warning">
+              <div class="panel-heading">
+                <h3 class="panel-title">是否在床</h3>
+              </div>
+              <div class="panel-body" id="isInbed">
+                是
+              </div>
+            </div>
+            <div class="panel panel-danger">
+              <div class="panel-heading">
+                <h3 class="panel-title">是否哭闹</h3>
+              </div>
+              <div class="panel-body" id="isCrying">
+                否
+              </div>
+            </div>
+          </div><!-- /.col-sm-4 -->
+        </div>
+        <h2 class="page-header">动作输入</h2>
+
+
+        <h2 class="sub-header">历史记录</h2>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>动作</th>
+              <th>开始时间</th>
+              <th>结束时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>睡眠</td>
+              <td>11:00</td>
+              <td>13:00</td>
+              <td>dolor</td>
+            </tr>
+            <tr>
+              <td>1,002</td>
+              <td>amet</td>
+              <td>consectetur</td>
+              <td>adipiscing</td>
+            </tr>
+            <tr>
+              <td>1,003</td>
+              <td>Integer</td>
+              <td>nec</td>
+              <td>odio</td>
+            </tr>
+            <tr>
+              <td>1,003</td>
+              <td>libero</td>
+              <td>Sed</td>
+              <td>cursus</td>
+            </tr>
+            <tr>
+              <td>1,004</td>
+              <td>dapibus</td>
+              <td>diam</td>
+              <td>Sed</td>
+            </tr>
+            <tr>
+              <td>1,005</td>
+              <td>Nulla</td>
+              <td>quis</td>
+              <td>sem</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" type="text/javascript"></script>
+    
+	<script src="{% static 'bootstrap-3.3.7/dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'baby.js' %}"></script>
+    <script>
+      $(document).ready(refresh())
+    </script>
+    <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+  </body>
 </html>
