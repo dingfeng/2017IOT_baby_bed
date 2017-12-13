@@ -94,60 +94,23 @@
             </div>
           </div><!-- /.col-sm-4 -->
         </div>
-        <h2 class="page-header">动作输入</h2>
+        
 
-
-        <h2 class="sub-header">历史记录</h2>
-        <div class="table-responsive">
-          <table class="table table-striped">
-            <thead>
-            <tr>
-              <th>#</th>
-              <th>动作</th>
-              <th>开始时间</th>
-              <th>结束时间</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td>睡眠</td>
-              <td>11:00</td>
-              <td>13:00</td>
-              <td>dolor</td>
-            </tr>
-            <tr>
-              <td>1,002</td>
-              <td>amet</td>
-              <td>consectetur</td>
-              <td>adipiscing</td>
-            </tr>
-            <tr>
-              <td>1,003</td>
-              <td>Integer</td>
-              <td>nec</td>
-              <td>odio</td>
-            </tr>
-            <tr>
-              <td>1,003</td>
-              <td>libero</td>
-              <td>Sed</td>
-              <td>cursus</td>
-            </tr>
-            <tr>
-              <td>1,004</td>
-              <td>dapibus</td>
-              <td>diam</td>
-              <td>Sed</td>
-            </tr>
-            <tr>
-              <td>1,005</td>
-              <td>Nulla</td>
-              <td>quis</td>
-              <td>sem</td>
-            </tr>
-            </tbody>
-          </table>
+        
+        <div>
+          <h2 class="sub-header">摇篮开关</h2>
+          <button type="button" class="btn btn-default" id="open" style="margin-right:20px">开启</button>
+          <button type="button" class="btn btn-default" id="close">关闭</button>
         </div>
+        
+        <h2 class="sub-header">历史记录</h2>
+        <div id="chart" style="height: 200px;">
+
+        
+      </div>
+
+      
+
       </div>
 
     </div>
@@ -156,10 +119,11 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" type="text/javascript"></script>
+    <script src="{% static 'jquery.js' %}"></script>
     
-	<script src="{% static 'bootstrap-3.3.7/dist/js/bootstrap.min.js' %}"></script>
+	  <script src="{% static 'bootstrap-3.3.7/dist/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'baby.js' %}"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script>
       $(document).ready(refresh())
     </script>
