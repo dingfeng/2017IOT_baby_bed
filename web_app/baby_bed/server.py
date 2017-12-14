@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from models import Action
 import socket
 
-INBED_TEMPERATURE_THRESHOD = 18
+INBED_TEMPERATURE_THRESHOD = 16
 INBED_TEMPERATURE_WINDOW = 60    # s
 CRY_SOUND_THRESHOD = 330
 CRY_SOUND_WINDOW = 60
@@ -67,7 +67,7 @@ def sleepTime(request):
         latestNotSleepAction = Action.objects.filter(~Q(action_type = 'sleep')).order_by("-time")[:1][0]
         startTime = time.mktime(time.strptime(latestNotSleepAction.time,'%Y-%m-%dT%H:%M:%S'))
         #print time.mktime(time.localtime(time.time()))
-        sleepTime = round(time.time()-startTime)
+        sleepTime = round(time.time()-startTime-60)
         res['res'] = '%s分钟%s秒' % (int(sleepTime/60), int(sleepTime%60))
     else:
         res['res'] = '没在睡觉啊'
@@ -166,6 +166,25 @@ def pull():
     
     action.save()
     #print "pulling..."
+
+def crontab(request):
+    while True:
+        current_time = time.time()
+        print "pulling..."
+        rjson = data.getdata('sound,temperature', current_time, DEAMON_TIME_INTERVAL, 10)
+        averageSound = calcAver(rjson['data']['datastreams'][0]['datapoints'])
+        averageTem = calcAver(rjson['data']['datastreams'][1]['datapoints'])
+
+        if averageSound < CRY_SOUND_THRESHOD and averageTem > INBED_TEMPERATURE_THRESHOD:
+            action = Action(action_type='sleep')
+        elif averageSound > CRY_SOUND_THRESHOD and averageTem > INBED_TEMPERATURE_THRESHOD:
+            action = Action(action_type='cry')
+        else:
+            action = Action(action_type='missing')
+
+        action.save()
+        time.sleep(10)
+
 
 def off(request):
     res = {'errno': 0}

@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^history/$', baby_bed_server.history, name='history'),
     url(r'^off', baby_bed_server.off, name='off'),
     url(r'^on', baby_bed_server.on, name='on'),
+    url(r'^crontab', baby_bed_server.crontab, name='crontab'),
     #url(r'^test/$', baby_bed_server.pull, name='test'),
 ]
