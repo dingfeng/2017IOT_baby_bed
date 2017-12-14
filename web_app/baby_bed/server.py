@@ -1,6 +1,6 @@
 #coding:utf-8
 import data,time
-
+from django.db.models import Q
 from django.http import JsonResponse
 from models import Action
 import socket
@@ -20,7 +20,7 @@ def pull():
 def bed_wetting(request):
 
     # waiting for future implemention
-    resStub = {'errno':0,'res': 'False'}
+    resStub = {'errno':0,'res': '否'}
     return JsonResponse(resStub)
 
 def temp(request):
@@ -31,7 +31,7 @@ def temp(request):
         res['errno'] = 1
     else:
         temp = rjson['data']['datastreams'][0]['datapoints'][0]['value']
-        res['res'] = temp
+        res['res'] = round(temp,1)
 
     return JsonResponse(res)
 
@@ -52,22 +52,24 @@ def inBed(request):
     else:
         averageTem = calcAver(rjson['data']['datastreams'][0]['datapoints'])
         if averageTem >= INBED_TEMPERATURE_THRESHOD:
-            res['res'] = True
+            res['res'] = '是'
         else:
-            res['res'] = False
+            res['res'] = '否'
     
     return JsonResponse(res)
 
 def sleepTime(request):
     res = {'errno': 0}
 
-    latestAction = Action.objects.all().reverse()[:1][0]
+    latestAction = Action.objects.order_by("-time").all()[:1][0]
+    print latestAction.action_type
     if latestAction.action_type ==  'sleep':
-        startTime = time.mktime(time.strptime(latestAction.time,'%Y-%m-%dT%H:%M:%S'))
-        print time.mktime(time.localtime(time.time()))
+        latestNotSleepAction = Action.objects.filter(~Q(action_type = 'sleep')).reverse()[:1][0]
+        startTime = time.mktime(time.strptime(latestNotSleepAction.time,'%Y-%m-%dT%H:%M:%S'))
+        #print time.mktime(time.localtime(time.time()))
         res['res'] = time.time()-startTime
     else:
-        res['res'] = 'awake'
+        res['res'] = '没在睡觉啊'
 
     return JsonResponse(res)
 
@@ -86,9 +88,9 @@ def isCry(request):
         averageSound = calcAver(rjson['data']['datastreams'][0]['datapoints'])
 
         if averageSound >= CRY_SOUND_THRESHOD:
-            res['res'] = True
+            res['res'] = '是'
         else:
-            res['res'] = False
+            res['res'] = '否'
 
     return JsonResponse(res)
 
@@ -110,9 +112,9 @@ def isSleeping(request):
         averageTem = calcAver(rjson['data']['datastreams'][1]['datapoints'])
 
         if averageSound < CRY_SOUND_THRESHOD and averageTem > INBED_TEMPERATURE_THRESHOD:
-            res['res'] = True
+            res['res'] = '是'
         else:
-            res['res'] = False
+            res['res'] = '否'
 
     return JsonResponse(res)
 
@@ -134,7 +136,7 @@ def calcAver(datapoints):
 def history(request):
     res = {'errno': 0}
 
-    data = Action.objects.all().reverse()[:10]
+    data = Action.objects.order_by("-time").all()
     array = []
     for item in data:
         dict = {}

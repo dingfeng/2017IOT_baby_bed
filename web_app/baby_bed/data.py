@@ -22,7 +22,7 @@ def getdata(datastream, end = None, timerange = None, limit = 1):
     params = {
         'datastream_id': datastream,  # datastream id
         'limit': limit,  # number of results
-        'newadd': False,  # only see newly added records
+        #'newadd': False,  # only see newly added records
         'sort': 'DESC',  # always want the latest
     }
     if end != None:

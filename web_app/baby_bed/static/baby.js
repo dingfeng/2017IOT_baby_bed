@@ -54,7 +54,7 @@ function IsWet() {
 }
 
 function getSleepTime(){
-    $.ajax({url:"http://127.0.0.1/sleepTime",async:true,dataType:"json",success:function(data){
+    $.ajax({url:"http://127.0.0.1:8001/sleepTime",async:true,dataType:"json",success:function(data){
         //alert(data.res);
         $("#sleeptime").text(data.res);
     }});
