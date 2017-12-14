@@ -136,13 +136,15 @@ def calcAver(datapoints):
 def history(request):
     res = {'errno': 0}
 
-    data = Action.objects.order_by("-time").all()
+    data = Action.objects.order_by("-time").all()[:100]
+    
     array = []
     for item in data:
         dict = {}
         dict['time'] = item.time
         dict['action_type'] = item.action_type
         array.append(dict)
+    array.reverse()
     res['data'] = array
     return JsonResponse(res)
 
