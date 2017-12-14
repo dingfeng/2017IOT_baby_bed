@@ -1,5 +1,5 @@
 function refresh() {
-    getRows();
+    fresh();
     setInterval(fresh,10000);
     //etInterval(updateHistory,1000);
     function fresh() {
@@ -10,12 +10,11 @@ function refresh() {
         getSleepTemp();
         getSleepTime();
         IsWet();
-        //updateHistory();
         getRows();
     }
 }
 
-i=0;
+
 function IsAsleep() {   
     $.ajax({url:"http://127.0.0.1:8001/isSleeping",async:true,dataType:"json",success:function(data){
         //alert(data.res);
@@ -124,11 +123,6 @@ function getRows(){
         updateHistory(rows);
     }});
 
-
-    return [[ 'Status', 'George Washington', new Date(1789, 3, 30), new Date(1797, 2, 4) ],
-      [ 'Status', 'John Adams', new Date(1797, 2, 4), new Date(1801, 2, 4) ],
-      [ 'Status', 'Thomas Jefferson', new Date(1801, 2, 4), new Date(1809, 2, 4) ]
-    ];
 }
 
 
