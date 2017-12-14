@@ -5,9 +5,9 @@ from django.http import JsonResponse
 from models import Action
 import socket
 
-INBED_TEMPERATURE_THRESHOD = 30
+INBED_TEMPERATURE_THRESHOD = 18
 INBED_TEMPERATURE_WINDOW = 60    # s
-CRY_SOUND_THRESHOD = 200
+CRY_SOUND_THRESHOD = 330
 CRY_SOUND_WINDOW = 60
 DEAMON_TIME_INTERVAL = 60
 
@@ -64,10 +64,11 @@ def sleepTime(request):
     latestAction = Action.objects.order_by("-time").all()[:1][0]
     print latestAction.action_type
     if latestAction.action_type ==  'sleep':
-        latestNotSleepAction = Action.objects.filter(~Q(action_type = 'sleep')).reverse()[:1][0]
+        latestNotSleepAction = Action.objects.filter(~Q(action_type = 'sleep')).order_by("-time")[:1][0]
         startTime = time.mktime(time.strptime(latestNotSleepAction.time,'%Y-%m-%dT%H:%M:%S'))
         #print time.mktime(time.localtime(time.time()))
-        res['res'] = time.time()-startTime
+        sleepTime = round(time.time()-startTime)
+        res['res'] = '%s分钟%s秒' % (int(sleepTime/60), int(sleepTime%60))
     else:
         res['res'] = '没在睡觉啊'
 

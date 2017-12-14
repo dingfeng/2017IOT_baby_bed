@@ -28,6 +28,12 @@ function IsCrying() {
     $.ajax({url:"http://127.0.0.1:8001/isCry",async:true,dataType:"json",success:function(data){
         //alert(data.res);
         $("#isCrying").text(data.res);
+        if(data.res == '是'){
+            $("#isCrying").css({color:"red"})
+        }else{
+            $("#isCrying").css({color:"black"})
+        }
+
     }});
 }
 
@@ -35,6 +41,11 @@ function IsInBed() {
     $.ajax({url:"http://127.0.0.1:8001/inBed",async:true,dataType:"json",success:function(data){
         //alert(data.res);
         $("#isInbed").text(data.res);
+        if(data.res == '否'){
+            $("#isInbed").css({color:"red"})
+        }else{
+            $("#isInbed").css({color:"black"})
+        }
     }});
 }
 
@@ -49,6 +60,11 @@ function IsWet() {
     $.ajax({url:"http://127.0.0.1:8001/bed-wetting",async:true,dataType:"json",success:function(data){
         //alert(data.res);
         $("#isWet").text(data.res);
+        if(data.res == '是'){
+            $("#isWet").css({color:"red"})
+        }else{
+            $("#isWet").css({color:"black"})
+        }
     }});
 }
 
